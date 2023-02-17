@@ -1,0 +1,27 @@
+./workspace/mnist/gen-cert -e mnist -i 2
+
+scp 10.25.63.146:/opt/hpe/swarm-learning/workspace/mnist/cert/ca/capath/ca-1-cert.pem workspace/mnist/cert/ca/capath
+
+sed -i "s+<CURRENT-PATH>+$(pwd)+g" workspace/mnist/swop/swop*_profile.yaml workspace/mnist/swci/taskdefs/swarm_mnist_task.yaml
+
+docker volume rm sl-cli-lib
+docker volume create sl-cli-lib
+docker container create --name helper -v sl-cli-lib:/data hello-world
+docker cp -L lib/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
+docker rm helper
+
+docker network create host-2-net
+
+./scripts/bin/run-sn --rm --name=sn2 --network=host-2-net \
+--host-ip=10.25.63.130 --sentinel-ip=10.25.63.146 --sn-p2p-port=30303 \
+--sn-api-port=30304 --key=workspace/mnist/cert/sn-2-key.pem \
+--cert=workspace/mnist/cert/sn-2-cert.pem \
+--capath=workspace/mnist/cert/ca/capath --apls-ip=10.25.63.146
+
+./scripts/bin/run-swop --rm --name=swop2 --network=host-2-net \
+--usr-dir=workspace/mnist/swop --profile-file-name=swop2_profile.yaml \
+--key=workspace/mnist/cert/swop-2-key.pem \
+--cert=workspace/mnist/cert/swop-2-cert.pem \
+--capath=workspace/mnist/cert/ca/capath \
+-e SWOP_KEEP_CONTAINERS=True \
+-e http_proxy= -e https_proxy= --apls-ip=10.25.63.146
