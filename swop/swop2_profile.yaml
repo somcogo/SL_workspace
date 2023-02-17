@@ -17,7 +17,7 @@ apls :
         port : ~
 apisrv :
     locator :
-        host : 10.25.63.130
+        host : 10.25.63.146
         port : ~
 envvars :
     - SL_LOG_LEVEL : DEBUG
@@ -50,7 +50,7 @@ nodes :
                 tgt : "/swarm-cert/capath"
                 subPath : null
         slhostname : sl2
-        slhostip   : 10.25.63.130
+        slhostip   : 10.25.63.146
         slport : 18000
         usrhostname : user2
         privatedata :

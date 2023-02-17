@@ -53,7 +53,7 @@ nodes :
         slport : 16000
         usrhostname : user1
         privatedata :
-            src: "/opt/hpe/swarm-learning/workspace/mnist/user1/data-and-scratch"
+            src: "/opt/hpe/swarm-learning/workspace/mnist/app-data"
             mType : BIND
         slenvvars : null
         usrenvvars : null
