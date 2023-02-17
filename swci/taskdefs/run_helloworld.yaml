@@ -1,16 +1,16 @@
 ######################################################################
 # (C)Copyright 2021,2022 Hewlett Packard Enterprise Development LP
 ######################################################################
-Name: swarm_mnist_task
+Name: run_helloworld
 TaskType: RUN_SWARM
-Author: HPESwarm
+Author: Soma
 Prereq: user_env_tf_build_task
-Outcome: swarm_mnist_task
+Outcome: run_helloworld
 Body:
-    Command: model/mnist_tf.py
+    Command: model/helloworld.py
     Entrypoint: python3
     WorkingDir: /tmp/test
-    Envvars: ["DATA_DIR": app-data, "MODEL_DIR": model, "MAX_EPOCHS": 2, "MIN_PEERS": 2]
+    Envvars: ["DATA_DIR": app-data, "MODEL_DIR": model]
     PrivateContent: /tmp/test/app-data
     SharedContent:
     -   Src: /opt/hpe/swarm-learning/workspace/mnist/model
